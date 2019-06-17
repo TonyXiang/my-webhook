@@ -1,0 +1,26 @@
+{
+  "name": "my-webhook",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TonyXiang/my-webhook.git"
+  },
+  "keywords": [
+    "webhook",
+    "node"
+  ],
+  "author": "TonyXiang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TonyXiang/my-webhook/issues"
+  },
+  "homepage": "https://github.com/TonyXiang/my-webhook#readme",
+  "dependencies": {
+    "github-webhook-handler": "^0.7.1"
+  }
+}
