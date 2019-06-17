@@ -32,6 +32,7 @@ function main () {
     const filePath = '../' + event.payload.repository.name + '/deploy.sh'
     fs.exists(filePath,function(exists){
       if(exists){
+        fs.chmodSync(filePath, 777)
         run_cmd('sh', ['../' + event.payload.repository.name + '/deploy.sh'], function(text){ console.log(text) })
       }
     })
