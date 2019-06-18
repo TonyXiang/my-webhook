@@ -1,6 +1,11 @@
 #!/bin/bash
 
-git pull
+projectPath=$(cd `dirname $0`; pwd)
+
+echo "==> go projectPath"
+cd $projectPath
+
 npm install
-pm2 start index.js --name my-webhook
+pm2 restart my-webhook
+
 echo "Finished."

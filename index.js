@@ -15,7 +15,7 @@ function run_cmd(cmd, args, callback) {
 
 function run_sh(filePath) {
   if (fs.existsSync(filePath)) {
-    fs.chmodSync(filePath, 7)
+    fs.chmodSync(filePath, 777)
     run_cmd('sh', [filePath], function(text){
       console.log(text)
       console.log(filePath + ' end')
@@ -42,14 +42,14 @@ function main () {
     const filePath = '../' + event.payload.repository.name + '/deploy.sh'
 
     if (fs.existsSync('../' + event.payload.repository.name)) {
-      fs.chmodSync('./update.sh', 7)
+      fs.chmodSync('./update.sh', 777)
       run_cmd('sh', ['./update.sh', event.payload.repository.name], function(text){
         console.log(text)
         console.log('update.sh end')
         run_sh(filePath)
       })
     } else {
-      fs.chmodSync('./clone.sh', 7)
+      fs.chmodSync('./clone.sh', 777)
       run_cmd('sh', ['./clone.sh', event.payload.repository.git_url], function(text){
         console.log(text)
         console.log('clone.sh end')
@@ -65,6 +65,8 @@ function main () {
   //     event.payload.issue.number,
   //     event.payload.issue.title)
   // })
+
+  console.log('serve start at port 7777')
 }
 
 main()
