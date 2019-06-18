@@ -13,6 +13,16 @@ function run_cmd(cmd, args, callback) {
   child.stdout.on('end', function() { callback (resp) })
 }
 
+function run_sh(filePath) {
+  if (fs.existsSync(filePath)) {
+    fs.chmodSync(filePath, 7)
+    run_cmd('sh', [filePath], function(text){
+      console.log(text)
+      console.log(filePath + ' end')
+    })
+  }
+}
+
 function main () {
   http.createServer(function (req, res) {
     handler(req, res, function (err) {
@@ -34,22 +44,16 @@ function main () {
     if (fs.existsSync('../' + event.payload.repository.name)) {
       fs.chmodSync('./update.sh', 7)
       run_cmd('sh', ['./update.sh', event.payload.repository.name], function(text){
-        console.log(1)
         console.log(text)
+        console.log('update.sh end')
+        run_sh(filePath)
       })
     } else {
       fs.chmodSync('./clone.sh', 7)
       run_cmd('sh', ['./clone.sh', event.payload.repository.git_url], function(text){
-        console.log(1)
         console.log(text)
-      })
-    }
-
-    if (fs.existsSync(filePath)) {
-      fs.chmodSync(filePath, 7)
-      run_cmd('sh', ['../' + event.payload.repository.name + '/deploy.sh'], function(text){
-        console.log(1)
-        console.log(text)
+        console.log('clone.sh end')
+        run_sh(filePath)
       })
     }
   })
