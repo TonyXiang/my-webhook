@@ -30,7 +30,16 @@ function main () {
       event.payload.repository.name,
       event.payload.ref)
     const filePath = '../' + event.payload.repository.name + '/deploy.sh'
-    fs.exists(filePath,function(exists){
+
+    fs.existsSync('../' + event.payload.repository.name, function (exists) {
+      if (exists) {
+        run_cmd('sh', ['./update.sh', event.payload.repository.name], function(text){ console.log(text) })
+      } else {
+        run_cmd('sh', ['./clone.sh', event.payload.repository.git_url], function(text){ console.log(text) })
+      }
+    })
+
+    fs.existsSync(filePath,function(exists){
       if(exists){
         fs.chmodSync(filePath, 7)
         run_cmd('sh', ['../' + event.payload.repository.name + '/deploy.sh'], function(text){ console.log(text) })
