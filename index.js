@@ -31,20 +31,27 @@ function main () {
       event.payload.ref)
     const filePath = '../' + event.payload.repository.name + '/deploy.sh'
 
-    fs.existsSync('../' + event.payload.repository.name, function (exists) {
-      if (exists) {
-        run_cmd('sh', ['./update.sh', event.payload.repository.name], function(text){ console.log(text) })
-      } else {
-        run_cmd('sh', ['./clone.sh', event.payload.repository.git_url], function(text){ console.log(text) })
-      }
-    })
+    if (fs.existsSync('../' + event.payload.repository.name)) {
+      fs.chmodSync('./update.sh', 7)
+      run_cmd('sh', ['./update.sh', event.payload.repository.name], function(text){
+        console.log(1)
+        console.log(text)
+      })
+    } else {
+      fs.chmodSync('./clone.sh', 7)
+      run_cmd('sh', ['./clone.sh', event.payload.repository.git_url], function(text){
+        console.log(1)
+        console.log(text)
+      })
+    }
 
-    fs.existsSync(filePath,function(exists){
-      if(exists){
-        fs.chmodSync(filePath, 7)
-        run_cmd('sh', ['../' + event.payload.repository.name + '/deploy.sh'], function(text){ console.log(text) })
-      }
-    })
+    if (fs.existsSync(filePath)) {
+      fs.chmodSync(filePath, 7)
+      run_cmd('sh', ['../' + event.payload.repository.name + '/deploy.sh'], function(text){
+        console.log(1)
+        console.log(text)
+      })
+    }
   })
 
   // handler.on('issues', function (event) {
